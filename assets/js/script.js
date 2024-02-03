@@ -8,7 +8,7 @@ var cityTimeZone
 // At page load, call the searchHistoryArray[] and display on the index.html
 document.addEventListener('DOMContentLoaded', function() {
     // Retrieve data from localStorage
-    var searchHistoryList = document.getElementById('cardsContainer')
+    var searchHistoryList = document.getElementById('searchHistoryList')
     var searchHistoryArray = JSON.parse(localStorage.getItem('searchHistory'))
   
     // Check if data exists
@@ -74,6 +74,9 @@ function handleSearchFormSubmit(event) {
     // searchHistoryArray.push(cityName);
     searchHistoryArray.unshift(cityName);
   
+    // force reload of search history
+    // location.reload();
+
     // Save the updated array back to localStorage
     localStorage.setItem('searchHistory', JSON.stringify(searchHistoryArray));
   
@@ -110,12 +113,12 @@ function getCurrentConditions(cityLat, cityLon, cityName){
 var currentConditionsURL = "http://api.openweathermap.org/data/3.0/onecall?lat=" + cityLat + "&lon=" + cityLon + "&exclude=minutely,hourly,daily,alerts" + "&appid=" + API_key + "&units=imperial"
   // console.log(currentConditionsURL)
   // console.log (cityLat, cityLon)
-const container = document.getElementById('cardsContainer')
+const container = document.getElementById('currentConditionsContainer')
 
-// container.innerHTML = ''
+container.innerHTML = ''
 
 fetch(currentConditionsURL)
-  // const container = document.querySelector('#cardsContainer') 
+  // const container = document.querySelector('currentConditionsContainer') 
   .then(response => response.json()) // Parse the response as JSON
   .then(data => {
     const formattedDate = dayjs.unix(data.current.dt).format('MMMM DD, YYYY')
@@ -125,10 +128,8 @@ fetch(currentConditionsURL)
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">Current Conditions for: ${cityName}</h5>
-        <img src="http://openweathermap.org/img/wn/${data.current.weather[0].icon}.png alt="weather icon">
-        <p class="card-text">DT: ${formattedDate}</p>
-        <p class="card-text">Timezone: ${data.timezone}</p>
-        <p class="card-text">TZ Offset: ${data.timezone_offset}</p>
+        <img src="http://openweathermap.org/img/wn/${data.current.weather[0].icon}.png" alt="weather icon">
+        <p class="card-text">Current Date: ${formattedDate}</p>
         <p class="card-text">Temperature: ${data.current.temp} &deg;F</p>
         <p class="card-text">Wind Speed: ${data.current.wind_speed} MPH</p>
         <p class="card-text">Humidity: ${data.current.humidity} &percnt;</p>
@@ -149,7 +150,8 @@ fetch(currentConditionsURL)
 
 function getForecast(cityLat, cityLon, cityTimeZone){
   // var forecastConditionsList = document.getElementById("forecastConditionsList")  
-  const container = document.getElementById('cardsContainer')      
+  const container = document.getElementById('forecastContainer')      
+  container.innerHTML = ''
   var forecastURL = "http://api.openweathermap.org/data/2.5/forecast?lat=" + cityLat + "&lon=" + cityLon + "&appid=" + API_key + "&units=imperial"
     console.log(forecastURL)
     console.log (cityLat, cityLon)
@@ -173,10 +175,8 @@ function getForecast(cityLat, cityLon, cityTimeZone){
           <div class="card-body">
             <h5 class="card-title">Forecast Conditions for: ${formattedDate}</h5>
             <img src="http://openweathermap.org/img/wn/${data.list[i].weather[0].icon}.png" alt="weather icon">
-            <p class="card-text">Date: ${formattedDate}</p>
-            <p class="card-text">Date: ${formattedTime}</p>
-            <p class="card-text">Timezone: ${cityTimeZone}</p>
-            <p class="card-text">TZ Offset: ${cityTimeZone}</p>
+            <p class="card-text">Forecast Date: ${formattedDate}</p>
+            <p class="card-text">Forecast Time: ${formattedTime}</p>
             <p class="card-text">Temperature: ${data.list[i].main.temp} &deg;F </p>
             <p class="card-text">Wind Speed: ${data.list[i].wind.speed} MPH</p>
             <p class="card-text">Humidity: ${data.list[i].main.humidity} &percnt;</p>

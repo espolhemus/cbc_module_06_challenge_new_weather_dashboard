@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Responsive HTML Page</title>
+  <link rel="stylesheet" type="text/css" href="./assets/css/style.css" />
+  <title>Weather Dashboard Application</title>
   <style>
     /* Add your CSS styles here */
   </style>
@@ -14,13 +15,21 @@
   </header>
 
   <main>
+    <h1>Weather Dashboard</h1>
     <form id="searchForm">
       <input type="text" id="searchInput" placeholder="Enter City Name">
       <button type="submit">Search</button>
     </form>
-
-    <div id="cardsContainer" class="card">
-      <!-- Add your HTML cards dynamically using JavaScript -->
+    <div>
+      <div id="searchHistory" class="search-history">
+        <h2>Search History</h2>
+        <ul id="searchHistoryList" class="search-history-list">
+        </ul>
+      </div>
+      <div id="currentConditionsContainer" class="card-container">
+      </div>
+    </div>
+    <div id="forecastContainer" class="card-container">
     </div>
   </main>
 
