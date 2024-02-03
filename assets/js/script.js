@@ -109,16 +109,17 @@ function getCurrentConditions(cityLat, cityLon){
 var currentConditionsURL = "http://api.openweathermap.org/data/3.0/onecall?lat=" + cityLat + "&lon=" + cityLon + "&exclude=minutely,hourly,daily,alerts" + "&appid=" + API_key + "&units=imperial"
   // console.log(currentConditionsURL)
   // console.log (cityLat, cityLon)
-const container = document.querySelector('#cardsContainer')   
+const container = document.getElementById('cardsContainer')   
 fetch(currentConditionsURL)
   // const container = document.querySelector('#cardsContainer') 
   .then(response => response.json()) // Parse the response as JSON
   .then(data => {
     const formattedDate = dayjs.unix(data.current.dt).format('MMMM DD, YYYY')
+    var cityTimeZone = data.timezone
     const card = `
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title">City Name: ${cityName}</h5>
+        <h5 class="card-title">Current Conditions for: ${cityName}</h5>
         <p class="card-text">DT: ${formattedDate}</p>
         <p class="card-text">Timezone: ${data.timezone}</p>
         <p class="card-text">TZ Offset: ${data.timezone_offset}</p>
@@ -138,5 +139,53 @@ fetch(currentConditionsURL)
   //   console.error(error);
   // });    
 
-//   getForecast(cityLat, cityLon, cityTimeZone)
+  getForecast(cityLat, cityLon, cityTimeZone)
 }
+
+function getForecast(cityLat, cityLon, cityTimeZone){
+  // var forecastConditionsList = document.getElementById("forecastConditionsList")  
+  const container = document.getElementById('cardsContainer')      
+  var forecastURL = "http://api.openweathermap.org/data/2.5/forecast?lat=" + cityLat + "&lon=" + cityLon + "&appid=" + API_key + "&units=imperial"
+    console.log(forecastURL)
+    console.log (cityLat, cityLon)
+    fetch(forecastURL)
+    .then(response => response.json()) // Parse the response as JSON
+    .then(data => {
+      // Handle the JSON data
+      console.log(data);
+      // Do further processing or manipulation of the data
+      for (let i = 0; i < 40; i += 8) {
+        // const date = data.list[i].dt_txt;
+        const currentDateTime  = (data.list[i].dt_txt)
+        const date = new Date(currentDateTime)
+        const dateOptions = { dateStyle: 'long', timeZone: cityTimeZone} ;
+        const formattedDate = date.toLocaleDateString('en-US', dateOptions);
+        const card = `
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Forecast Conditions for: ${formattedDate}</h5>
+            <p class="card-text">DT: ${formattedDate}</p>
+            <p class="card-text">Timezone: ${cityTimeZone}</p>
+            <p class="card-text">TZ Offset: ${cityTimeZone}</p>
+            <p class="card-text">Temperature: ${data.list[i].main.temp}</p>
+            <p class="card-text">Wind Speed: ${data.list[i].wind.speed}</p>
+            <p class="card-text">Humidity: ${data.list[i].main.humidity}</p>
+            <p class="card-text">Description: ${data.list[i].weather[0].main}</p>
+            <p class="card-text">Weather Icon Link: ${data.list[i].weather[0].icon}</p>
+          </div>
+          </div>
+          `;
+          // console.log (data.list[i].dt_txt);
+          // console.log (data.city.timezone);
+          // console.log (data.list[i].weather[0].main)
+          // console.log (data.list[i].weather[0].icon)
+          // var conditionsIcon = (data.list[i].weather[0].icon)
+          // console.log (data.list[i].main.temp);
+          // console.log (data.list[i].wind.speed);
+          // console.log (data.list[i].main.humidity);
+          // console.log(i);
+
+          container.innerHTML += card;
+        }});
+      }
+    
