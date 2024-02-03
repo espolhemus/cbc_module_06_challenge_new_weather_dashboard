@@ -1,4 +1,4 @@
-var searchFormEl = document.querySelector('#searchInput');
+var searchFormEl = document.getElementById("searchForm");
 var API_key = "082ccd32fbf466c90e98e887c8b8fd7d"
 var cityName
 var cityLat
@@ -36,9 +36,9 @@ document.addEventListener('DOMContentLoaded', function() {
   
 function handleSearchFormSubmit(event) {
   event.preventDefault();
+
+  cityName = document.getElementById("searchInput").value;
   
-  var cityName = document.querySelector('#searchInput').value;
-    
       if (!cityName) {
         console.error('Please enter a valid city name');
         return;
@@ -92,6 +92,7 @@ function getCoordinates(cityName) {
       .then(function (data) {
         cityLat = (data[0].lat)
         cityLon = (data[0].lon)
+        // var cityName = (data[0].name)
         console.log('Name and Lat and Long \n----------');
         {
             console.log(data[0].name);
@@ -101,33 +102,37 @@ function getCoordinates(cityName) {
             console.log(cityLon);
             console.log(data)
         }
-  getCurrentConditions(cityLat, cityLon) 
+  getCurrentConditions(cityLat, cityLon, cityName) 
 })
 }
 
-function getCurrentConditions(cityLat, cityLon){
+function getCurrentConditions(cityLat, cityLon, cityName){
 var currentConditionsURL = "http://api.openweathermap.org/data/3.0/onecall?lat=" + cityLat + "&lon=" + cityLon + "&exclude=minutely,hourly,daily,alerts" + "&appid=" + API_key + "&units=imperial"
   // console.log(currentConditionsURL)
   // console.log (cityLat, cityLon)
-const container = document.getElementById('cardsContainer')   
+const container = document.getElementById('cardsContainer')
+
+// container.innerHTML = ''
+
 fetch(currentConditionsURL)
   // const container = document.querySelector('#cardsContainer') 
   .then(response => response.json()) // Parse the response as JSON
   .then(data => {
     const formattedDate = dayjs.unix(data.current.dt).format('MMMM DD, YYYY')
-    var cityTimeZone = data.timezone
+    const cityTimeZone = data.timezone
+    console.log(cityName)
     const card = `
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">Current Conditions for: ${cityName}</h5>
+        <img src="http://openweathermap.org/img/wn/${data.current.weather[0].icon}.png alt="weather icon">
         <p class="card-text">DT: ${formattedDate}</p>
         <p class="card-text">Timezone: ${data.timezone}</p>
         <p class="card-text">TZ Offset: ${data.timezone_offset}</p>
-        <p class="card-text">Temperature: ${data.current.temp}</p>
-        <p class="card-text">Wind Speed: ${data.current.wind_speed}</p>
-        <p class="card-text">Humidity: ${data.current.humidity}</p>
+        <p class="card-text">Temperature: ${data.current.temp} &deg;F</p>
+        <p class="card-text">Wind Speed: ${data.current.wind_speed} MPH</p>
+        <p class="card-text">Humidity: ${data.current.humidity} &percnt;</p>
         <p class="card-text">Description: ${data.current.weather[0].main}</p>
-        <p class="card-text">Weather Icon Link: ${data.current.weather[0].icon}</p>
       </div>
       </div>
       `;
@@ -160,32 +165,28 @@ function getForecast(cityLat, cityLon, cityTimeZone){
         const date = new Date(currentDateTime)
         const dateOptions = { dateStyle: 'long', timeZone: cityTimeZone} ;
         const formattedDate = date.toLocaleDateString('en-US', dateOptions);
+        const timeOptions = { timeStyle: 'short', timeZone: cityTimeZone} ;
+        const formattedTime = date.toLocaleTimeString('en-US', timeOptions);
+        console.log(cityName)
         const card = `
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Forecast Conditions for: ${formattedDate}</h5>
-            <p class="card-text">DT: ${formattedDate}</p>
+            <img src="http://openweathermap.org/img/wn/${data.list[i].weather[0].icon}.png" alt="weather icon">
+            <p class="card-text">Date: ${formattedDate}</p>
+            <p class="card-text">Date: ${formattedTime}</p>
             <p class="card-text">Timezone: ${cityTimeZone}</p>
             <p class="card-text">TZ Offset: ${cityTimeZone}</p>
-            <p class="card-text">Temperature: ${data.list[i].main.temp}</p>
-            <p class="card-text">Wind Speed: ${data.list[i].wind.speed}</p>
-            <p class="card-text">Humidity: ${data.list[i].main.humidity}</p>
+            <p class="card-text">Temperature: ${data.list[i].main.temp} &deg;F </p>
+            <p class="card-text">Wind Speed: ${data.list[i].wind.speed} MPH</p>
+            <p class="card-text">Humidity: ${data.list[i].main.humidity} &percnt;</p>
             <p class="card-text">Description: ${data.list[i].weather[0].main}</p>
-            <p class="card-text">Weather Icon Link: ${data.list[i].weather[0].icon}</p>
           </div>
           </div>
           `;
-          // console.log (data.list[i].dt_txt);
-          // console.log (data.city.timezone);
-          // console.log (data.list[i].weather[0].main)
-          // console.log (data.list[i].weather[0].icon)
-          // var conditionsIcon = (data.list[i].weather[0].icon)
-          // console.log (data.list[i].main.temp);
-          // console.log (data.list[i].wind.speed);
-          // console.log (data.list[i].main.humidity);
-          // console.log(i);
 
           container.innerHTML += card;
         }});
       }
-    
+
+searchFormEl.addEventListener('submit', handleSearchFormSubmit);
