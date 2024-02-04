@@ -1,4 +1,4 @@
-# Module 06 Challenge - Server-Side APIs Challenge: Weather Dashboard
+# Module 06 Challenge - Server-Side APIs: Weather Dashboard
 
 ## Description
 
