@@ -16,11 +16,11 @@ The HTML page can be found at: https://espolhemus.github.io/cbc_module_06_challe
 
 An image of the completed HTML page is as follows:
 
-![Final HTML Page](/assets/images/finished_html_screenshot_20240203.png)
+![Final HTML Page](/assets/images/finished_HTML_screenshot_20240203.png)
 
 An image of the contents of the respository is as follows:
 
-![Repository Image](/assets/images/respository_screenshot_20240203.png)
+![Repository Image](/assets/images/repository_screenshot_20240203.png)
 
 ## Credits
 
