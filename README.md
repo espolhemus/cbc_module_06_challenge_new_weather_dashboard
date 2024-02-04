@@ -12,19 +12,19 @@ Not applicable.
 
 The result of this submission is an HTML page deployed via GitHub Pages, with the underlying code being uploaded within this repository.
 
-The HTML page can be found at: https://espolhemus.github.io/cbc_module_03_challenge_password_generator/
+The HTML page can be found at: https://espolhemus.github.io/cbc_module_06_challenge_new_weather_dashboard/
 
 An image of the completed HTML page is as follows:
 
-![Final HTML Page](/assets/images/finished_html_screenshot_20231012.png)
+![Final HTML Page](/assets/images/finished_html_screenshot_20240203.png)
 
 An image of the contents of the respository is as follows:
 
-![Repository Image](/assets/images/respository_screenshot_20231012.png)
+![Repository Image](/assets/images/respository_screenshot_20240203.png)
 
 ## Credits
 
-The Open Weather API was utilized as the source of the underlying data for this project.
+The Open Weather API was utilized as the source of the underlying data for this project, and the Xpert Learning Assistant was utilized to assist with this project.
 
 ## License
 
