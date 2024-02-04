@@ -86,7 +86,7 @@ function handleSearchFormSubmit(event) {
 
 // receive cityName and generate API call to obtain lat and lon coordinates
 function getCoordinates(cityName) {
-  var geocodingURL = "http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&appid=" + API_key;
+  var geocodingURL = "https://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&appid=" + API_key;
   
   fetch(geocodingURL)
     .then(function (response) {
@@ -110,7 +110,7 @@ function getCoordinates(cityName) {
 }
 
 function getCurrentConditions(cityLat, cityLon, cityName){
-var currentConditionsURL = "http://api.openweathermap.org/data/3.0/onecall?lat=" + cityLat + "&lon=" + cityLon + "&exclude=minutely,hourly,daily,alerts" + "&appid=" + API_key + "&units=imperial"
+var currentConditionsURL = "https://api.openweathermap.org/data/3.0/onecall?lat=" + cityLat + "&lon=" + cityLon + "&exclude=minutely,hourly,daily,alerts" + "&appid=" + API_key + "&units=imperial"
   // console.log(currentConditionsURL)
   // console.log (cityLat, cityLon)
 const container = document.getElementById('currentConditionsContainer')
@@ -128,7 +128,7 @@ fetch(currentConditionsURL)
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">Current Conditions for: ${cityName}</h5>
-        <img src="http://openweathermap.org/img/wn/${data.current.weather[0].icon}.png" alt="weather icon">
+        <img src="https://openweathermap.org/img/wn/${data.current.weather[0].icon}.png" alt="weather icon">
         <p class="card-text">Current Date: ${formattedDate}</p>
         <p class="card-text">Temperature: ${data.current.temp} &deg;F</p>
         <p class="card-text">Wind Speed: ${data.current.wind_speed} MPH</p>
@@ -152,7 +152,7 @@ function getForecast(cityLat, cityLon, cityTimeZone){
   // var forecastConditionsList = document.getElementById("forecastConditionsList")  
   const container = document.getElementById('forecastContainer')      
   container.innerHTML = ''
-  var forecastURL = "http://api.openweathermap.org/data/2.5/forecast?lat=" + cityLat + "&lon=" + cityLon + "&appid=" + API_key + "&units=imperial"
+  var forecastURL = "https://api.openweathermap.org/data/2.5/forecast?lat=" + cityLat + "&lon=" + cityLon + "&appid=" + API_key + "&units=imperial"
     console.log(forecastURL)
     console.log (cityLat, cityLon)
     fetch(forecastURL)
@@ -174,7 +174,7 @@ function getForecast(cityLat, cityLon, cityTimeZone){
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Forecast Conditions for: ${formattedDate}</h5>
-            <img src="http://openweathermap.org/img/wn/${data.list[i].weather[0].icon}.png" alt="weather icon">
+            <img src="https://openweathermap.org/img/wn/${data.list[i].weather[0].icon}.png" alt="weather icon">
             <p class="card-text">Forecast Date: ${formattedDate}</p>
             <p class="card-text">Forecast Time: ${formattedTime}</p>
             <p class="card-text">Temperature: ${data.list[i].main.temp} &deg;F </p>
